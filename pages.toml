@@ -1,0 +1,6 @@
+# Cloudflare Pages Build Configuration
+# This tells Cloudflare to use npm install instead of npm ci
+
+[build]
+command = "npm install --legacy-peer-deps"
+directory = "public"
