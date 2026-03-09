@@ -3,7 +3,7 @@ nixPkgs = ["nodejs-18_x", "python311", "ffmpeg", "yt-dlp"]
 aptPkgs = ["ffmpeg", "python3", "python3-pip"]
 
 [phases.install]
-cmds = ["npm ci --only=production", "pip install faster-whisper"]
+cmds = ["npm install" "pip install faster-whisper"]
 
 [phases.build]
 cmds = ["echo 'Building with Nixpacks'"]
