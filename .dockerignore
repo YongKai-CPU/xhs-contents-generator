@@ -1,6 +1,6 @@
 # ============================================================
 # Docker Ignore File
-# Excludes unnecessary files from Docker build
+# Speeds up Docker builds by excluding unnecessary files
 # ============================================================
 
 # Dependencies
@@ -56,7 +56,8 @@ DO_QUICKSTART.md
 PUSH_TO_GITHUB.txt
 RUN_THESE_COMMANDS.txt
 YOUR_CREDENTIALS.txt
-DEPLOY_*.txt
+RAILWAY*.txt
+DEPLOY*.txt
 
 # Scripts
 scripts
@@ -67,11 +68,20 @@ tests
 *-backup
 *.bak
 
-# Railway & Cloudflare configs (not needed in Docker)
+# Railway & Cloudflare configs (not needed)
 railway.json
 nixpacks.toml
-wrangler.toml
+wrangler.toml*
 worker
 
 # Frontend test files
 public/test-*.html
+
+# Cloudflare Pages config
+pages.toml
+
+# Vercel config
+vercel.json
+
+# Netlify config
+netlify.toml
