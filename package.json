@@ -1,0 +1,54 @@
+{
+  "name": "xhs-contents-generator",
+  "version": "4.0.0",
+  "description": "AI-powered Xiaohongshu content generator from video links - Cloudflare + Railway Production Ready",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node server/index.js",
+    "worker:dev": "wrangler dev worker/index.js",
+    "worker:deploy": "wrangler deploy --cwd worker",
+    "railway:login": "railway login",
+    "railway:deploy": "railway up",
+    "deploy:worker": "npm run worker:deploy",
+    "deploy:railway": "npm run railway:deploy",
+    "supabase:migrate": "echo 'Run db/supabase-schema.sql in Supabase SQL Editor'",
+    "test": "node tests/test.js",
+    "test:local": "node test-local-ai.js",
+    "backup": "node scripts/backup.js"
+  },
+  "keywords": [
+    "xiaohongshu",
+    "content-generator",
+    "ai",
+    "copywriting",
+    "video-transcript",
+    "firebase-auth",
+    "cloudflare-workers",
+    "railway",
+    "supabase",
+    "cloudflare-r2"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "youtube-transcript": "^1.2.1",
+    "axios": "^1.6.0",
+    "uuid": "^9.0.0",
+    "sqlite3": "^5.1.7",
+    "node-cron": "^3.0.3",
+    "firebase-admin": "^12.0.0",
+    "cookie-parser": "^1.4.6",
+    "@supabase/supabase-js": "^2.39.0",
+    "@aws-sdk/client-s3": "^3.478.0"
+  },
+  "devDependencies": {
+    "wrangler": "^3.24.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

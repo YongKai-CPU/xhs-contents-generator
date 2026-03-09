@@ -1,0 +1,32 @@
+# Cloudflare Worker Configuration
+# Xiaohongshu Content Generator - API Gateway
+# NO R2 - Using Railway local storage instead
+
+name = "xhs-generator-worker"
+compatibility_date = "2024-01-01"
+main = "index.js"
+
+# Account Configuration
+account_id = "90b06263e5877d69a12e4aff4ea85d8e"
+
+# Environment Variables (non-sensitive)
+[vars]
+RAILWAY_BACKEND_URL = "https://your-app.railway.app"
+TELEGRAM_BOT_USERNAME = "xhs54321_bot"
+CORS_ALLOWED_ORIGIN = "*"
+
+# Rate Limiting Configuration (disabled until KV is set up)
+RATE_LIMIT_ENABLED = "false"
+RATE_LIMIT_REQUESTS = "100"
+RATE_LIMIT_WINDOW = "3600"
+
+# Secrets (set via wrangler secret command)
+# These must be set individually:
+# - FIREBASE_PROJECT_ID
+# - FIREBASE_CLIENT_EMAIL
+# - FIREBASE_PRIVATE_KEY
+# - TELEGRAM_BOT_TOKEN
+# - SUPABASE_URL
+# - SUPABASE_SERVICE_KEY
+# NO R2 NEEDED!
+# NO KV NAMESPACE NEEDED (optional for rate limiting)

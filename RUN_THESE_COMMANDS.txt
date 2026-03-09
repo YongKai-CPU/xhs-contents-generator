@@ -1,0 +1,135 @@
+================================================================================
+  DEPLOY YOUR APP NOW - Cloudflare + Railway
+================================================================================
+
+Your credentials are configured. Follow these steps:
+
+================================================================================
+  PART 1: Deploy Cloudflare Worker (5 minutes)
+================================================================================
+
+Option A: Automated (Recommended)
+--------------------------------------------
+Double-click this file: deploy-cloudflare-stepbystep.ps1
+
+It will:
+  ✅ Create KV namespace
+  ✅ Set all secrets with your credentials
+  ✅ Deploy the Worker
+
+
+Option B: Manual Commands
+--------------------------------------------
+Open PowerShell in this folder and run:
+
+cd worker
+
+# Create KV namespace
+wrangler kv:namespace create "RATE_LIMITER"
+# Copy the ID it gives you
+
+# Update wrangler.toml:
+# Line 29: Replace YOUR_KV_NAMESPACE_ID with the ID you copied
+notepad wrangler.toml
+
+# Set secrets (it will prompt you to paste values):
+wrangler secret put SUPABASE_URL
+# Paste: https://qoeonjcbifechzhksuee.supabase.co
+
+wrangler secret put SUPABASE_SERVICE_KEY
+# Paste: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFvZW9uamNiaWZlY2h6aGtzdWVlIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MzAwNzk4MSwiZXhwIjoyMDg4NTgzOTgxfQ.kBLbYxSv0SkEog2H8gJ2SgQJ6DCrA24F_ALwAgwWNeo
+
+wrangler secret put TELEGRAM_BOT_TOKEN
+# Paste: 8581922805:AAHAoihgOot9mG7fTHN4XFF_XCPwR5QQrVw
+
+# Deploy!
+wrangler deploy
+
+# Copy your Worker URL!
+
+
+================================================================================
+  PART 2: Deploy Railway Backend (5 minutes)
+================================================================================
+
+Open PowerShell in this folder and run:
+
+# Login (if not already)
+railway login
+
+# Initialize project (if not done)
+railway init
+
+# Set environment variables
+railway variables set PORT=3000
+railway variables set NODE_ENV=production
+railway variables set AI_API_KEY=sk-f1c3545354d84d40b79c771911c694f0
+railway variables set AI_BASE_URL=https://dashscope-intl.aliyuncs.com/compatible-mode/v1
+railway variables set AI_MODEL=qwen-turbo
+railway variables set SUPABASE_URL=https://qoeonjcbifechzhksuee.supabase.co
+railway variables set SUPABASE_SERVICE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFvZW9uamNiaWZlY2h6aGtzdWVlIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MzAwNzk4MSwiZXhwIjoyMDg4NTgzOTgxfQ.kBLbYxSv0SkEog2H8gJ2SgQJ6DCrA24F_ALwAgwWNeo
+railway variables set SESSION_COOKIE_NAME=__session
+railway variables set COOKIE_SECURE=true
+railway variables set TELEGRAM_BOT_TOKEN=8581922805:AAHAoihgOot9mG7fTHN4XFF_XCPwR5QQrVw
+
+# Upload Firebase service account
+railway upload --path "C:\Users\yongk\Downloads\contents-generator-e39c4-firebase-adminsdk-fbsvc-f32486c9d4.json"
+
+# Deploy!
+railway up
+
+# Get your Railway URL
+railway domain
+
+# Copy the URL!
+
+
+================================================================================
+  PART 3: Test Your Deployment (2 minutes)
+================================================================================
+
+Test 1: Health Check
+curl https://your-worker-url.workers.dev/health
+
+Expected: {"status":"ok"}
+
+Test 2: Frontend
+Deploy to Cloudflare Pages:
+1. Go to https://dash.cloudflare.com > Workers & Pages
+2. Create Application > Pages > Direct Upload
+3. Upload contents of public/ folder
+4. Set environment variables (Firebase config)
+
+Test 3: Telegram Bot
+curl -X POST "https://api.telegram.org/bot8581922805:AAHAoihgOot9mG7fTHN4XFF_XCPwR5QQrVw/setWebhook" -d "url=https://your-worker-url.workers.dev/telegram/webhook"
+
+
+================================================================================
+  YOUR CREDENTIALS (Already Configured)
+================================================================================
+
+✅ Supabase URL: https://qoeonjcbifechzhksuee.supabase.co
+✅ Supabase Service Key: (saved in environment variables)
+✅ Cloudflare Account ID: 90b06263e5877d69a12e4aff4ea85d8e
+✅ AI API Key: sk-f1c3545354d84d40b79c771911c694f0
+✅ Telegram Bot Token: 8581922805:AAHAoihgOot9mG7fTHN4XFF_XCPwR5QQrVw
+
+
+================================================================================
+  NEED HELP?
+================================================================================
+
+- Check: CLOUDFLARE_NO_R2.md (detailed guide)
+- Check: DEPLOYMENT_CHECKLIST.md (track progress)
+- Check: YOUR_CREDENTIALS.txt (your saved credentials)
+
+
+================================================================================
+  READY? START WITH PART 1!
+================================================================================
+
+Run: deploy-cloudflare-stepbystep.ps1
+
+Or follow the manual commands above.
+
+Good luck! 🚀

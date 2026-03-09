@@ -1,0 +1,8 @@
+# Cloudflare Pages redirects
+# Redirect rules for the Xiaohongshu Content Generator
+
+# API routes - handled by functions
+# No redirects needed, functions handle these automatically
+
+# Fallback to index.html for SPA routing (if needed)
+# /*    /index.html   200

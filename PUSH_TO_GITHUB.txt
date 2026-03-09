@@ -1,0 +1,83 @@
+================================================================================
+  Push Your Code to GitHub
+================================================================================
+
+STEP 1: Create GitHub Repository
+--------------------------------------------
+
+1. Go to: https://github.com/new
+2. Repository name: xhs-contents-generator
+3. Make it Public or Private (your choice)
+4. DON'T initialize it (no README, no .gitignore)
+5. Click "Create repository"
+
+
+STEP 2: Connect and Push
+--------------------------------------------
+
+Copy and paste these commands (replace YOUR_USERNAME with your GitHub username):
+
+# Connect to GitHub
+git remote add origin https://github.com/YOUR_USERNAME/xhs-contents-generator.git
+
+# Push your code
+git branch -M main
+git push -u origin main
+
+
+STEP 3: Deploy to Railway from GitHub
+--------------------------------------------
+
+1. Go to: https://railway.com/project/5daff756-041b-46aa-aca2-a2d79f93b896
+2. Click "New" > "Deploy from GitHub repo"
+3. Connect your GitHub account
+4. Select: xhs-contents-generator
+5. Railway will auto-detect and deploy!
+
+
+STEP 4: Set Railway Environment Variables
+--------------------------------------------
+
+After Railway deploys, link to the service:
+
+railway service
+# Select: xhs-contents-generator
+
+Then set variables:
+
+railway variables set PORT=3000
+railway variables set NODE_ENV=production
+railway variables set AI_API_KEY=sk-f1c3545354d84d40b79c771911c694f0
+railway variables set AI_BASE_URL=https://dashscope-intl.aliyuncs.com/compatible-mode/v1
+railway variables set AI_MODEL=qwen-turbo
+railway variables set SUPABASE_URL=https://qoeonjcbifechzhksuee.supabase.co
+railway variables set SUPABASE_SERVICE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFvZW9uamNiaWZlY2h6aGtzdWVlIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MzAwNzk4MSwiZXhwIjoyMDg4NTgzOTgxfQ.kBLbYxSv0SkEog2H8gJ2SgQJ6DCrA24F_ALwAgwWNeo
+railway variables set SESSION_COOKIE_NAME=__session
+railway variables set COOKIE_SECURE=true
+railway variables set TELEGRAM_BOT_TOKEN=8581922805:AAHAoihgOot9mG7fTHN4XFF_XCPwR5QQrVw
+
+# Upload Firebase
+railway upload --path "C:\Users\yongk\Downloads\contents-generator-e39c4-firebase-adminsdk-fbsvc-f32486c9d4.json"
+
+# Deploy
+railway up
+
+# Get URL
+railway domain
+
+
+================================================================================
+  Quick Commands (Copy-Paste)
+================================================================================
+
+# Add remote (replace YOUR_USERNAME)
+git remote add origin https://github.com/YOUR_USERNAME/xhs-contents-generator.git
+
+# Change branch to main
+git branch -M main
+
+# Push to GitHub
+git push -u origin main
+
+
+================================================================================

@@ -1,0 +1,36 @@
+# Cloudflare Pages headers
+# Security and caching headers for the Xiaohongshu Content Generator
+
+# Security headers for all routes
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
+*/
+
+# Cache static assets
+/css/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/js/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.svg
+/*.png
+/*.jpg
+/*.jpeg
+/*.gif
+/*.ico
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.woff
+/*.woff2
+/*.ttf
+/*.eot
+  Cache-Control: public, max-age=31536000, immutable
+
+# HTML files - no cache
+/*.html
+  Cache-Control: no-cache, no-store, must-revalidate

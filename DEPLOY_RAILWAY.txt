@@ -1,0 +1,122 @@
+================================================================================
+  Deploy Railway Backend - Complete Guide
+================================================================================
+
+STEP 1: Create Railway Service
+--------------------------------------------
+
+Option A: Via Web (Easiest)
+1. Go to: https://railway.com/project/5daff756-041b-46aa-aca2-a2d79f93b896
+2. Click "New" > "Deploy from GitHub repo"
+3. Connect your GitHub account
+4. Select your repository: xhs contents generator
+5. Railway will auto-detect it's a Node.js app
+6. Click "Deploy"
+
+OR
+
+Option B: Via CLI
+1. In PowerShell, run:
+   railway service create
+   # Name: xhs-generator-backend
+   # Select your project
+
+
+STEP 2: Link Service
+--------------------------------------------
+
+railway service
+# Select: xhs-generator-backend
+
+
+STEP 3: Set Environment Variables
+--------------------------------------------
+
+railway variables set PORT=3000
+railway variables set NODE_ENV=production
+railway variables set AI_API_KEY=sk-f1c3545354d84d40b79c771911c694f0
+railway variables set AI_BASE_URL=https://dashscope-intl.aliyuncs.com/compatible-mode/v1
+railway variables set AI_MODEL=qwen-turbo
+railway variables set SUPABASE_URL=https://qoeonjcbifechzhksuee.supabase.co
+railway variables set SUPABASE_SERVICE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFvZW9uamNiaWZlY2h6aGtzdWVlIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MzAwNzk4MSwiZXhwIjoyMDg4NTgzOTgxfQ.kBLbYxSv0SkEog2H8gJ2SgQJ6DCrA24F_ALwAgwWNeo
+railway variables set SESSION_COOKIE_NAME=__session
+railway variables set COOKIE_SECURE=true
+railway variables set TELEGRAM_BOT_TOKEN=8581922805:AAHAoihgOot9mG7fTHN4XFF_XCPwR5QQrVw
+
+
+STEP 4: Upload Firebase Service Account
+--------------------------------------------
+
+railway upload --path "C:\Users\yongk\Downloads\contents-generator-e39c4-firebase-adminsdk-fbsvc-f32486c9d4.json"
+
+
+STEP 5: Deploy
+--------------------------------------------
+
+railway up
+
+# Wait for deployment to complete
+
+
+STEP 6: Get Your Railway URL
+--------------------------------------------
+
+railway domain
+
+# Copy the URL it gives you!
+# Example: https://xhs-generator-backend-production.up.railway.app
+
+
+STEP 7: Update Cloudflare Worker
+--------------------------------------------
+
+1. Open: worker/wrangler.toml
+2. Line 14: Replace with your Railway URL:
+   RAILWAY_BACKEND_URL = "https://your-railway-url.railway.app"
+3. Save the file
+4. Run: wrangler deploy
+
+
+STEP 8: Test Everything
+--------------------------------------------
+
+# Test Railway backend
+curl https://your-railway-url.railway.app/health
+
+# Test Cloudflare Worker
+curl https://xhs-generator-worker.yongkailim1.workers.dev/health
+
+# Test end-to-end
+curl https://xhs-generator-worker.yongkailim1.workers.dev/health/ready
+
+
+================================================================================
+  Quick Commands Summary
+================================================================================
+
+# Link service
+railway service
+
+# Set all variables (copy-paste one by one)
+railway variables set PORT=3000
+railway variables set NODE_ENV=production
+railway variables set AI_API_KEY=sk-f1c3545354d84d40b79c771911c694f0
+railway variables set AI_BASE_URL=https://dashscope-intl.aliyuncs.com/compatible-mode/v1
+railway variables set AI_MODEL=qwen-turbo
+railway variables set SUPABASE_URL=https://qoeonjcbifechzhksuee.supabase.co
+railway variables set SUPABASE_SERVICE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFvZW9uamNiaWZlY2h6aGtzdWVlIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MzAwNzk4MSwiZXhwIjoyMDg4NTgzOTgxfQ.kBLbYxSv0SkEog2H8gJ2SgQJ6DCrA24F_ALwAgwWNeo
+railway variables set SESSION_COOKIE_NAME=__session
+railway variables set COOKIE_SECURE=true
+railway variables set TELEGRAM_BOT_TOKEN=8581922805:AAHAoihgOot9mG7fTHN4XFF_XCPwR5QQrVw
+
+# Upload Firebase
+railway upload --path "C:\Users\yongk\Downloads\contents-generator-e39c4-firebase-adminsdk-fbsvc-f32486c9d4.json"
+
+# Deploy
+railway up
+
+# Get URL
+railway domain
+
+
+================================================================================

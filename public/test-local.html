@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Local Test - Direct AI Generation</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; }
+    input, textarea { width: 100%; padding: 10px; margin: 10px 0; }
+    button { background: #007bff; color: white; padding: 10px 20px; border: none; cursor: pointer; }
+    button:hover { background: #0056b3; }
+    #output { background: #f5f5f5; padding: 20px; margin-top: 20px; white-space: pre-wrap; }
+    .error { background: #ffe6e6; color: #cc0000; }
+    .success { background: #e6ffe6; color: #006600; }
+  </style>
+</head>
+<body>
+  <h1>🧪 Local AI Generation Test</h1>
+  
+  <label>Video URL (YouTube or TikTok):</label>
+  <input type="text" id="videoUrl" value="https://www.youtube.com/watch?v=5lVfIV3JlXw" />
+  
+  <p style="font-size: 12px; color: #666;">
+    <strong>Examples:</strong><br>
+    YouTube: https://www.youtube.com/watch?v=xxxxx<br>
+    TikTok: https://www.tiktok.com/@user/video/xxxxx
+  </p>
+  
+  <button onclick="testGeneration()">🚀 Test AI Generation</button>
+  
+  <div id="output"></div>
+
+  <script>
+    let csrfToken = null;
+    
+    // Fetch CSRF token on page load
+    async function fetchCSRFToken() {
+      try {
+        const response = await fetch('/csrf-token');
+        const data = await response.json();
+        csrfToken = data.token;
+        console.log('CSRF Token:', csrfToken ? '✅' : '❌');
+      } catch (error) {
+        console.error('Failed to fetch CSRF token:', error);
+      }
+    }
+    
+    // Fetch token when page loads
+    fetchCSRFToken();
+    
+    // Poll for job status
+    async function pollJobStatus(jobId, maxAttempts = 30) {
+      const output = document.getElementById('output');
+      
+      for (let i = 0; i < maxAttempts; i++) {
+        await new Promise(resolve => setTimeout(resolve, 2000)); // Wait 2 seconds
+        
+        try {
+          const response = await fetch(`/api/jobs/${jobId}`, {
+            headers: {
+              'X-CSRF-Token': csrfToken || ''
+            }
+          });
+          
+          const data = await response.json();
+          console.log(`Poll ${i+1}: Status =`, data.status, 'Progress =', data.progress);
+          
+          if (data.status === 'DONE') {
+            return data;
+          } else if (data.status === 'FAILED') {
+            throw new Error(data.errorMessage || 'Generation failed');
+          }
+          
+          output.textContent = `⏳ Processing... (${data.progress}%) - Attempt ${i+1}/${maxAttempts}`;
+          
+        } catch (error) {
+          console.error('Poll error:', error);
+          throw error;
+        }
+      }
+      
+      throw new Error('Timeout - job did not complete in time');
+    }
+    
+    async function testGeneration() {
+      const output = document.getElementById('output');
+      const videoUrl = document.getElementById('videoUrl').value;
+      
+      output.className = '';
+      output.textContent = '⏳ Creating job...';
+      
+      try {
+        console.log('Testing generation for:', videoUrl);
+        console.log('CSRF Token:', csrfToken ? '✅' : '❌');
+        
+        // Call API directly with CSRF token
+        const response = await fetch('/api/jobs', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': csrfToken || ''
+          },
+          body: JSON.stringify({
+            videoUrl: videoUrl,
+            transcript: null,
+            options: {}
+          })
+        });
+        
+        console.log('Response status:', response.status);
+        
+        const data = await response.json();
+        console.log('Response data:', data);
+        
+        if (data.error) {
+          output.className = 'error';
+          output.textContent = '❌ Error: ' + data.error.message;
+          return;
+        }
+        
+        // If job is already done (cached or synchronous)
+        if (data.status === 'DONE' && data.output) {
+          output.className = 'success';
+          output.textContent = '✅ Success!\n\n' + JSON.stringify(data.output, null, 2);
+          return;
+        }
+        
+        // Poll for job completion
+        output.textContent = `⏳ Job created: ${data.jobId}\nPolling for results...`;
+        
+        const result = await pollJobStatus(data.jobId);
+        
+        output.className = 'success';
+        output.textContent = '✅ Success!\n\n' + JSON.stringify(result.output, null, 2);
+        
+      } catch (error) {
+        console.error('Test error:', error);
+        output.className = 'error';
+        output.textContent = '❌ Error: ' + error.message + '\n\nCheck console for details.';
+      }
+    }
+  </script>
+</body>
+</html>

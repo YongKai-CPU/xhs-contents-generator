@@ -1,0 +1,57 @@
+================================================================================
+  DEPLOY CLOUDFLARE WORKER NOW - Simple 3 Steps
+================================================================================
+
+The assertion error is fixed! Just follow these steps:
+
+STEP 1: Run This Command in PowerShell
+--------------------------------------------
+
+Open PowerShell in this folder and run:
+
+cd worker
+wrangler secret put SUPABASE_URL
+
+Paste this when prompted:
+https://qoeonjcbifechzhksuee.supabase.co
+
+
+STEP 2: Set Second Secret
+--------------------------------------------
+
+wrangler secret put SUPABASE_SERVICE_KEY
+
+Paste this when prompted:
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFvZW9uamNiaWZlY2h6aGtzdWVlIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MzAwNzk4MSwiZXhwIjoyMDg4NTgzOTgxfQ.kBLbYxSv0SkEog2H8gJ2SgQJ6DCrA24F_ALwAgwWNeo
+
+
+STEP 3: Set Third Secret & Deploy
+--------------------------------------------
+
+wrangler secret put TELEGRAM_BOT_TOKEN
+
+Paste this when prompted:
+8581922805:AAHAoihgOot9mG7fTHN4XFF_XCPwR5QQrVw
+
+wrangler deploy
+
+
+================================================================================
+  That's It!
+================================================================================
+
+After deployment, you'll see your Worker URL. Copy it!
+
+Then deploy Railway backend (see RUN_THESE_COMMANDS.txt)
+
+
+================================================================================
+  OR Just Run the Automated Script
+================================================================================
+
+Double-click: deploy-simple.bat
+
+It will guide you through all 3 secrets and deploy automatically!
+
+
+================================================================================
