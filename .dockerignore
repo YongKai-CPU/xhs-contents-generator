@@ -1,0 +1,77 @@
+# ============================================================
+# Docker Ignore File
+# Excludes unnecessary files from Docker build
+# ============================================================
+
+# Dependencies
+node_modules
+npm-debug.log*
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Git
+.git
+.gitignore
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build outputs
+dist
+build
+public/dist
+
+# Logs
+logs
+*.log
+
+# Database
+jobs.db
+*.db
+
+# Storage (will be created at runtime)
+storage
+
+# Large binaries (already excluded from git)
+ffmpeg
+ffmpeg.zip
+yt-dlp.exe
+
+# Documentation (not needed for runtime)
+*.md
+!README.md
+DEPLOYMENT*.md
+CLOUDFLARE*.md
+DO_QUICKSTART.md
+PUSH_TO_GITHUB.txt
+RUN_THESE_COMMANDS.txt
+YOUR_CREDENTIALS.txt
+DEPLOY_*.txt
+
+# Scripts
+scripts
+test-*.js
+tests
+
+# Backup files
+*-backup
+*.bak
+
+# Railway & Cloudflare configs (not needed in Docker)
+railway.json
+nixpacks.toml
+wrangler.toml
+worker
+
+# Frontend test files
+public/test-*.html
