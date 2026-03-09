@@ -1,0 +1,98 @@
+================================================================================
+  ⚠️ CRITICAL: Railway is Ignoring Your Dockerfile!
+================================================================================
+
+The error shows Railway is STILL using NIXPACKS instead of Dockerfile!
+
+You can see in the error:
+  "npm ci --only=production"
+  
+This is NIXPACKS, NOT Docker! Your Dockerfile uses "npm install".
+
+
+================================================================================
+  FIX: Manually Switch to Dockerfile in Railway Dashboard
+================================================================================
+
+STEP 1: Go to Railway Project
+--------------------------------------------
+Open: https://railway.com/project/5daff756-041b-46aa-aca2-a2d79f93b896
+
+
+STEP 2: Click "Settings" Tab
+--------------------------------------------
+At the top of your project page, click "Settings"
+
+
+STEP 3: Find "Build Provider"
+--------------------------------------------
+Scroll down until you see "Build Provider"
+
+It probably says "Nixpacks" right now.
+
+
+STEP 4: Change to "Dockerfile"
+--------------------------------------------
+Click the dropdown and select "Dockerfile"
+
+This FORCES Railway to use your Dockerfile instead of nixpacks!
+
+
+STEP 5: Redeploy
+--------------------------------------------
+Go back to "Deployments" tab
+Click "Deploy" or "Redeploy"
+
+Now it will use your Dockerfile and SUCCEED!
+
+
+================================================================================
+  Why This Happens
+================================================================================
+
+Railway automatically detects the build method:
+- If it sees nixpacks.toml → uses Nixpacks
+- If it sees Dockerfile → uses Docker
+
+BUT if it already cached a nixpacks build, it STICKS with it!
+
+You need to MANUALLY switch to Dockerfile in Settings.
+
+
+================================================================================
+  After Switching to Dockerfile
+================================================================================
+
+The build will:
+1. Use your Dockerfile (not nixpacks)
+2. Run "npm install" (not "npm ci")
+3. Install ffmpeg, python, yt-dlp
+4. Deploy successfully!
+
+Build time: 3-5 minutes
+
+
+================================================================================
+  If You Don't See "Build Provider" Setting
+================================================================================
+
+Some Railway accounts might not see this setting.
+
+In that case:
+1. Delete the current deployment
+2. Create a new service
+3. Railway will auto-detect Dockerfile
+
+
+================================================================================
+  DO THIS NOW!
+================================================================================
+
+1. Go to Railway dashboard
+2. Click Settings
+3. Change Build Provider to "Dockerfile"
+4. Redeploy
+
+Your deployment WILL succeed after this!
+
+================================================================================
